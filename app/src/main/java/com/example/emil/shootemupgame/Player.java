@@ -45,6 +45,12 @@ public class Player extends GameObject{
         if(dy>14)dy = 14;
         if(dy<-14)dy = -14;
 
+        if (y > GamePanel.HEIGHT) {
+            y = 0;
+        }
+        if (y < 0){
+            y = GamePanel.HEIGHT;
+        }
         y += dy*2;
         dy = 0;
     }
