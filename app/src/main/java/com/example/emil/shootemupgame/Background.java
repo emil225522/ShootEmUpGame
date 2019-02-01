@@ -5,14 +5,15 @@ import android.graphics.Canvas;
 public class Background {
 
     private Bitmap image;
-    private int x, y, dx;
+    private int x, y, dx = -5;
+
 
     public  Background (Bitmap res){
         image = res;
     }
     //updates games
     public void update(){
-        x+=dx;
+        x+=GamePanel.MOVESPEED;
         if (x < -GamePanel.WIDTH)
             x = 0;
     }
