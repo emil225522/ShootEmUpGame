@@ -42,14 +42,24 @@ public class Player extends GameObject{
             dy = (int)(dya+=1.1);
         }
 
-        if(dy>14)dy = 14;
-        if(dy<-14)dy = -14;
+        if(dy>10){
+            dy = 10;
+            dya = 10;
+        }
+        if(dy<-10){
+            dya = -10;
+            dy = -10;
+        }
 
         if (y > GamePanel.HEIGHT) {
-            y = 0;
+            //y = 0;
+            dy*=-1;
+            dya*=-1;
         }
         if (y < 0){
-            y = GamePanel.HEIGHT;
+            //y = GamePanel.HEIGHT;
+            dy *=-1;
+            dya *=-1;
         }
         y += dy*2;
         dy = 0;
