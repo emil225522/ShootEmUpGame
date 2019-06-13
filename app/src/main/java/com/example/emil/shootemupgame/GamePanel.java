@@ -14,7 +14,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     public static final int HEIGHT = 480;
     public static final int MOVESPEED = -5;
     private MainThread thread;
-    private Background bg;
+    private Background bg1;
+    private Background bg2;
     private Player player;
 
     public GamePanel(Context context)
@@ -51,7 +52,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     @Override
     public void surfaceCreated(SurfaceHolder holder){
 
-        bg = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.grassbg1));
+        bg1 = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.grassbg1),0,0);
+        bg2 = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.grassbg1),GamePanel.WIDTH*3,0);
         player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.ship));
         //we can safely start the game loop
         thread.setRunning(true);
@@ -84,7 +86,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     public void update()
     {
         if(player.getPlaying()) {
-            bg.update();
+            bg1.update();
+            bg2.update();
             player.update();
         }
     }
@@ -92,13 +95,14 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     public void draw(Canvas canvas)
     {
         super.draw(canvas);
-        final float scaleFactorX = getWidth()/(WIDTH*1.f);
-        final float scaleFactorY = getHeight()/(HEIGHT*1.f);
+        final float scaleFactorX = getWidth()/(WIDTH*3f);
+        final float scaleFactorY = getHeight()/(HEIGHT*3f);
 
         if(canvas!=null) {
             final int savedState = canvas.save();
             canvas.scale(scaleFactorX, scaleFactorY);
-            bg.draw(canvas);
+            bg1.draw(canvas);
+            bg2.draw(canvas);
             player.draw(canvas);
             canvas.restoreToCount(savedState);
         }

@@ -51,7 +51,7 @@ public class Player extends GameObject{
             dy = -10;
         }
 
-        if (y > GamePanel.HEIGHT) {
+        if (y > GamePanel.HEIGHT*3) {
             //y = 0;
             dy*=-1;
             dya*=-1;
