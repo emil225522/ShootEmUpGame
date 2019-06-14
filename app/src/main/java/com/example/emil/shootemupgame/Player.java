@@ -54,12 +54,12 @@ public class Player extends GameObject{
             dy = -10;
         }
 
-        if (y > GamePanel.HEIGHT - image.getHeight()) {
+        if (y > GamePanel.HEIGHT - image.getHeight() - dy) {
             //y = 0;
             dy*=-1;
             dya*=-1;
         }
-        if (y < 0){
+        if (y < 0 -dy){
             //y = GamePanel.HEIGHT;
             dy *=-1;
             dya *=-1;
