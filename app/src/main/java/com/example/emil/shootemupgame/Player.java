@@ -1,11 +1,14 @@
 package com.example.emil.shootemupgame;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+
+import java.util.ArrayList;
 
 
 public class Player extends GameObject{
-    private Bitmap image;
+    public Bitmap image;
     private int score;
     private double dya;
     private boolean up;
@@ -14,8 +17,8 @@ public class Player extends GameObject{
 
     public Player(Bitmap image) {
 
-        x = 100;
-        y = GamePanel.HEIGHT / 2;
+        x = 0;
+        y = GamePanel.HEIGHT/2;
         dy = 0;
         this.image = image;
         score = 0;
@@ -51,7 +54,7 @@ public class Player extends GameObject{
             dy = -10;
         }
 
-        if (y > GamePanel.HEIGHT*3) {
+        if (y > GamePanel.HEIGHT - image.getHeight()) {
             //y = 0;
             dy*=-1;
             dya*=-1;

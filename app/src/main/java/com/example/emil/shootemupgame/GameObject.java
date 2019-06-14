@@ -8,6 +8,7 @@ public abstract class GameObject {
     protected int dx;
     protected int width;
     protected int height;
+    public boolean isDead = false;
 
     public void setX(int x)
     {

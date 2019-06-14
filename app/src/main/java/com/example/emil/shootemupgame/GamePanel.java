@@ -7,16 +7,21 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import java.util.ArrayList;
+
 
 public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
 {
-    public static final int WIDTH = 856;
-    public static final int HEIGHT = 480;
-    public static final int MOVESPEED = -5;
+    public static final int WIDTH = 856*3;
+    public static final int HEIGHT = 480*3;
+    public static final int MOVESPEED = -15;
+    public int bulletTimer = 0;
     private MainThread thread;
     private Background bg1;
     private Background bg2;
     private Player player;
+    public ArrayList<Bullet> bullets = new ArrayList<>();
+
 
     public GamePanel(Context context)
     {
@@ -53,12 +58,15 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     public void surfaceCreated(SurfaceHolder holder){
 
         bg1 = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.grassbg1),0,0);
-        bg2 = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.grassbg1),GamePanel.WIDTH*3,0);
+        bg2 = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.grassbg1),GamePanel.WIDTH,0);
         player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.ship));
         //we can safely start the game loop
         thread.setRunning(true);
         thread.start();
 
+    }
+    public void CreateBullet(){
+        bullets.add(new Bullet(BitmapFactory.decodeResource(getResources(), R.drawable.shipbullet), player.x + player.image.getWidth(),player.y));
     }
     @Override
     public boolean onTouchEvent(MotionEvent event)
@@ -86,6 +94,19 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     public void update()
     {
         if(player.getPlaying()) {
+            bulletTimer++;
+            if (bulletTimer > 10){
+                bulletTimer = 0;
+                CreateBullet();
+            }
+            for (int i = 0; i < bullets.size(); i++){
+                bullets.get(i).update();
+            }
+            for (int i = 0; i < bullets.size(); i++){
+               if ( bullets.get(i).isDead){
+                   bullets.remove(i);
+               }
+            }
             bg1.update();
             bg2.update();
             player.update();
@@ -94,9 +115,10 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     @Override
     public void draw(Canvas canvas)
     {
+        System.out.println(getWidth());
         super.draw(canvas);
-        final float scaleFactorX = getWidth()/(WIDTH*3f);
-        final float scaleFactorY = getHeight()/(HEIGHT*3f);
+        final float scaleFactorX = 0.75f;
+        final float scaleFactorY = 0.75f;
 
         if(canvas!=null) {
             final int savedState = canvas.save();
@@ -104,6 +126,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
             bg1.draw(canvas);
             bg2.draw(canvas);
             player.draw(canvas);
+            for (int i = 0; i < bullets.size(); i++){
+                bullets.get(i).draw(canvas);
+            }
             canvas.restoreToCount(savedState);
         }
     }

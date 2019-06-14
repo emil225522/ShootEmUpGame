@@ -6,7 +6,7 @@ import android.graphics.Canvas;
 public class Bullet extends GameObject {
 
         private Bitmap image;
-        private int x, y, dx = -5;
+        private int x, y, dx = 20;
 
 
         public  Bullet (Bitmap res, int x, int y){
@@ -16,7 +16,11 @@ public class Bullet extends GameObject {
         }
         //updates games
         public void update(){
-            x+=GamePanel.MOVESPEED;
+
+            x+=dx;
+            if (x > GamePanel.WIDTH){
+                isDead = true;
+            }
         }
         public void draw(Canvas canvas){
             canvas.drawBitmap(image, x, y, null);

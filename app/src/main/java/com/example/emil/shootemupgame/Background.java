@@ -5,7 +5,7 @@ import android.graphics.Canvas;
 public class Background {
 
     private Bitmap image;
-    private int x, y, dx = -5;
+    private int x, y, dx = -10;
 
 
     public  Background (Bitmap res, int x, int y){
@@ -16,15 +16,11 @@ public class Background {
     //updates games
     public void update(){
         x+=GamePanel.MOVESPEED;
-        if (x < -GamePanel.WIDTH*3f)
-            x = GamePanel.WIDTH*3;
+        if (x < -GamePanel.WIDTH - GamePanel.MOVESPEED)
+            x = GamePanel.WIDTH;
     }
     public void draw(Canvas canvas){
         canvas.drawBitmap(image, x, y, null);
-
-        if (x <0){
-            canvas.drawBitmap(image, x+ GamePanel.WIDTH*3, y, null);
-        }
 
     }
     public void setVector(int dx){
