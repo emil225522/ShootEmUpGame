@@ -14,10 +14,14 @@ public class Player extends GameObject{
     private boolean up;
     private boolean playing;
     private long startTime;
+    int screenWidth;
+    int screenHeight;
 
-    public Player(Bitmap image) {
+    public Player(Bitmap image, int screenWidth, int screenHeight) {
 
         x = 0;
+        this.screenHeight = screenHeight;
+        this.screenWidth = screenWidth;
         y = GamePanel.HEIGHT/2;
         dy = 0;
         this.image = image;
@@ -54,7 +58,7 @@ public class Player extends GameObject{
             dy = -10;
         }
 
-        if (y > GamePanel.HEIGHT - image.getHeight() - dy) {
+        if (y > screenHeight - image.getHeight() - dy) {
             //y = 0;
             dy*=-1;
             dya*=-1;

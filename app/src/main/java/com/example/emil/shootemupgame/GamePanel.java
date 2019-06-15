@@ -12,8 +12,8 @@ import java.util.ArrayList;
 
 public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
 {
-    public static final int WIDTH = 856*3;
-    public static final int HEIGHT = 480*3;
+    public static int WIDTH = 856;
+    public static int HEIGHT = 480;
     public static final int MOVESPEED = -15;
     public int bulletTimer = 0;
     private MainThread thread;
@@ -58,8 +58,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     public void surfaceCreated(SurfaceHolder holder){
 
         bg1 = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.grassbg1),0,0);
+        WIDTH = bg1.image.getWidth();
+        HEIGHT = bg1.image.getHeight();
         bg2 = new Background(BitmapFactory.decodeResource(getResources(), R.drawable.grassbg1),GamePanel.WIDTH,0);
-        player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.ship));
+        player = new Player(BitmapFactory.decodeResource(getResources(), R.drawable.ship),getWidth(),getHeight());
+
+
         //we can safely start the game loop
         thread.setRunning(true);
         thread.start();
@@ -117,8 +121,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     {
         System.out.println(getWidth());
         super.draw(canvas);
-        final float scaleFactorX = 0.75f;
-        final float scaleFactorY = 0.75f;
+        final float scaleFactorX = WIDTH/getWidth();
+        final float scaleFactorY = HEIGHT/getHeight();
 
         if(canvas!=null) {
             final int savedState = canvas.save();
