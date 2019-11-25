@@ -16,7 +16,7 @@ public class Enemy extends GameObject {
         this.x = x;
         this.y = y;
         image = res;
-        health = 10;
+        health = 6;
        rectangle = new Rect(x, y, x+image.getWidth(), y+image.getHeight());
     }
 

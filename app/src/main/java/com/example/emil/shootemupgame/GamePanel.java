@@ -92,6 +92,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
             }
             return true;
         }
+        
         if(event.getAction()==MotionEvent.ACTION_UP)
         {
             player.setUp(false);
