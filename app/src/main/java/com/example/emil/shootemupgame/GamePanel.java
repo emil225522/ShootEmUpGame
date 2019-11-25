@@ -8,6 +8,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 
 public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
@@ -20,7 +21,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     private Background bg1;
     private Background bg2;
     private Player player;
+    Random rand = new Random();
     public ArrayList<Bullet> bullets = new ArrayList<>();
+    public ArrayList<Enemy> enemies = new ArrayList<>();
 
 
     public GamePanel(Context context)
@@ -72,6 +75,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
     public void CreateBullet(){
         bullets.add(new Bullet(BitmapFactory.decodeResource(getResources(), R.drawable.shipbullet), player.x + player.image.getWidth(),player.y));
     }
+    public void spawnEnemies(){
+        enemies.add(new Enemy(BitmapFactory.decodeResource(getResources(), R.drawable.alien),2100,rand.nextInt(600)));
+    }
     @Override
     public boolean onTouchEvent(MotionEvent event)
     {
@@ -106,10 +112,30 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
             for (int i = 0; i < bullets.size(); i++){
                 bullets.get(i).update();
             }
+            for (int i = 0; i < enemies.size(); i++){
+                enemies.get(i).update();
+            }
+            for (int i = 0; i < enemies.size(); i++){
+                for (int j = 0; j < bullets.size(); j++){
+                    if (enemies.get(i).rectangle.intersect(bullets.get(j).rectangle)){
+                        enemies.get(i).health--;
+                        bullets.get(j).isDead = true;
+                    }
+                }
+            }
+
             for (int i = 0; i < bullets.size(); i++){
                if ( bullets.get(i).isDead){
                    bullets.remove(i);
                }
+            }
+            for (int i = 0; i < enemies.size(); i++){
+                if ( enemies.get(i).isDead){
+                    enemies.remove(i);
+                }
+            }
+            if (rand.nextInt(100) == 50 ){
+                spawnEnemies();
             }
             bg1.update();
             bg2.update();
@@ -132,6 +158,9 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback
             player.draw(canvas);
             for (int i = 0; i < bullets.size(); i++){
                 bullets.get(i).draw(canvas);
+            }
+            for (int i = 0; i < enemies.size(); i++){
+                enemies.get(i).draw(canvas);
             }
             canvas.restoreToCount(savedState);
         }
